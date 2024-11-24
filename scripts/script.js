@@ -27,7 +27,7 @@ function show(tasks) {
 
 async function getTasks(){
     let key = "Authorization";
-    const response = await fetch(tasksEndpoin, {
+    const response = await fetch("http://localhost:8080/task/user", {
         method: "GET",
         headers: new Headers({
             Authorization: localStorage.getItem(key),
@@ -44,7 +44,7 @@ getTasks()
 
 document.addEventListener("DOMContentLoaded", function (event) {
     if (!localStorage.getItem("Authorization"))
-        window.location = "/view/login.html";
+        window.location = "login.html";
 });
 
 getTasks();
