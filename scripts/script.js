@@ -4,6 +4,10 @@ function hideLoader() {
     document.getElementById("loading").style.display = "none"
 }
 
+function showName(name) {
+    document.getElementById("name").textContent = name;
+}
+
 function show(tasks) {
 
     let tab = 
@@ -25,6 +29,22 @@ function show(tasks) {
 
 }
 
+async function getName() {
+    let key = "Authorization";
+    const response = await fetch("http://localhost:8080/user/name", {
+        method: "GET",
+        headers: new Headers({
+            Authorization: localStorage.getItem(key),
+        }),
+    });
+
+    var data = await response.json();
+    console.log(data);
+    if (response) hideLoader();
+    showName(data.username);
+}
+
+
 async function getTasks(){
     let key = "Authorization";
     const response = await fetch("http://localhost:8080/task/user", {
@@ -40,6 +60,7 @@ async function getTasks(){
     show(data);
 }
 
+getName()
 getTasks()
 
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -47,4 +68,3 @@ document.addEventListener("DOMContentLoaded", function (event) {
         window.location = "login.html";
 });
 
-getTasks();
