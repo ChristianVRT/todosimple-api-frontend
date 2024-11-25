@@ -21,15 +21,14 @@ async function login() {
     window.localStorage.setItem(key, token);
   
     if (response.ok) {
-      showToast("#okToast");
-    } else {
       showToast("#errorToast");
+      window.setTimeout(function () {
+        window.location = "index.html";
+      }, 500);
+    } else {
+      showToast("#");
     }
   
-    window.setTimeout(function () {
-      window.location = "index.html";
-    }, 2000);
-  }
   
   function showToast(id) {
     var toastElList = [].slice.call(document.querySelectorAll(id));
@@ -38,3 +37,4 @@ async function login() {
     });
     toastList.forEach((toast) => toast.show());
   }
+}
