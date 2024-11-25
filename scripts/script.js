@@ -4,6 +4,43 @@ function hideLoader() {
     document.getElementById("loading").style.display = "none"
 }
 
+function createTask() {
+    var myModal = new bootstrap.Modal(document.getElementById('taskModal'));
+    myModal.show();
+
+    document.getElementById('taskForm').onsubmit = function(event) {
+        event.preventDefault();
+
+        const description = document.getElementById('taskDescription').value;
+
+        let key = "Authorization";
+        fetch("http://localhost:8080/task", {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                Authorization: localStorage.getItem(key)
+            }),
+            body: JSON.stringify({
+                description: description
+            })
+        })
+        .then(response => {
+            if (response.status === 201) {
+                console.log('Task successfully created.');
+                myModal.hide();
+                getTasks()
+                return; 
+            } else {
+                throw new Error('Unexpected response status: ' + response.status);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+}
+
 function showName(name) {
     document.getElementById("name").textContent = name;
 }
